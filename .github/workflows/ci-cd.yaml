@@ -21,7 +21,7 @@ jobs:
         - name: Clone manifests repository
           uses: actions/checkout@v4
           with:
-            repository: oJotaaa/manifestos-repo/
+            repository: oJotaaa/manifestos-repo
             ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
             path: manifestos-repo
         - name: Update Kubernetes manifest
