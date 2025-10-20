@@ -18,9 +18,6 @@ jobs:
             context: .
             push: true
             tags: ${{ secrets.DOCKER_USERNAME }}/aplicacao-repo:${{ github.sha }}
-          outputs:
-            digest: ${{ steps.docker_build.outputs.digest }}
-            tag: ${{ github.sha }}
         - name: Clone manifests repository
           uses: actions/checkout@v4
           with:
@@ -30,7 +27,7 @@ jobs:
         - name: Update Kubernetes manifest
           run: |
             cd manifestos-repo
-            sed -i 's/IMAGE_TAG/${{ steps.build_push.outputs.tag }}/g' deployment.yaml
+            sed -i 's/IMAGE_TAG/${{ github.sha }}/g' deployment.yaml
         - name: Commit and push changes
           run: |
             cd manifestos-repo
@@ -38,5 +35,5 @@ jobs:
             git config user.email "actions@github.com"
 
             git add deployment.yaml
-            git commit -m "Atualiza a imagem para a tag ${{ steps.build_push.outputs.tag }}"
+            git commit -m "Atualiza a imagem para a tag ${{ github.sha }}"
             git push
