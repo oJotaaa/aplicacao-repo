@@ -27,7 +27,7 @@ jobs:
         - name: Update Kubernetes manifest
           run: |
             cd manifestos-repo
-            sed -i 's/IMAGE_TAG/${{ github.sha }}/g' deployment.yaml
+            sed -i 's|image: ${{ secrets.DOCKER_USERNAME }}/aplicacao-repo:.*|image: ${{ secrets.DOCKER_USERNAME }}/aplicacao-repo:${{ github.sha }}|g' deployment.yaml
         - name: Commit and push changes
           run: |
             cd manifestos-repo
